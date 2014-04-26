@@ -19,8 +19,6 @@ document.getElementById("chat-user").value = "user_" + Math.random().toString(36
 document.getElementById("chat-send").onclick = sendChatMsg;
 
 // Send a chat message when return is pressed in the message box
-// + auto-focus to it
-document.getElementById("chat-message").focus();
 document.getElementById("chat-message").onkeypress = function (event) {
     if (event.which == 13 || event.keyCode == 13) {
         sendChatMsg();
@@ -33,3 +31,36 @@ document.getElementById("chat-message").onkeypress = function (event) {
 socket.on("s", function(data) {
     document.getElementById("chat-log").innerHTML += "<b>" + data["u"] + ":</b> " + data["m"] + "<br/>";
 });
+
+// Resources
+var data = [
+];
+
+// Main
+function main() {
+    init();
+    
+    gamejs.onTick(function(dt) {
+        update(dt);
+    });
+}
+
+// Init
+function init() {
+    // Init GameJs
+    var canvas = document.getElementById("gjs-canvas");
+    var display = gamejs.display.setMode([canvas.width, canvas.height]);
+    
+    // Focus the chat message box (GameJs kind of takes the focus)
+    document.getElementById("chat-message").focus();
+}
+
+// Update
+function update(dt) {
+    gamejs.display.getSurface().fill('magenta');
+}
+
+// Run GameJs
+var gamejs = require('gamejs');
+gamejs.preload(data);
+gamejs.ready(main);
