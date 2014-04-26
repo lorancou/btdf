@@ -11,6 +11,11 @@ I should write a description here.
 
 In the meantime the game is being developed there: http://btdf.roustach.fr.
 
+Libraries
+--------------------------------------------------------------------------------
+
+GameJs is licensed under the MIT license: http://gamejs.org/
+
 License
 --------------------------------------------------------------------------------
 
