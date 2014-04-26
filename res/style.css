@@ -1,8 +1,38 @@
 body{
-    background:#fff;
-    color:#222;
-    margin:20px 20px 20px 20px;
+    background:#ffffff;
+}
+
+#wrap {
+    width:768px;
+    margin:0 auto;
+    background:#ffff00;
+}
+
+#left {
+    float:left;
+    width:512px;
+    height: 512px;
+    background:#ff0000;
+    margin:0;
     padding:0;
+}
+
+#right {
+    float:right;
+    width:256px;
+    height: 512px;
+    background:#ff00ff;
+    margin:0;
+    padding:0;
+}
+
+#chat-input {
+    height: 80px;
+}
+
+#chat-log {
+    overflow: auto;
+    height: 432px;
 }
 
 #gjs-loader-images {
@@ -18,6 +48,6 @@ body{
 }
 
 #gjs-canvas {
-    width: 256px;
-    height: 256px;
+    width: 512px;
+    height: 512px;
 }

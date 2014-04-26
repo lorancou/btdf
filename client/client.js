@@ -29,7 +29,13 @@ document.getElementById("chat-message").onkeypress = function (event) {
 
 // Appends chat messages received from the server in the log
 socket.on("s", function(data) {
-    document.getElementById("chat-log").innerHTML += "<b>" + data["u"] + ":</b> " + data["m"] + "<br/>";
+    var chatLog = document.getElementById("chat-log");
+    
+    // Actually appends
+    chatLog.innerHTML += "<b>" + data["u"] + ":</b> " + data["m"] + "<br/>";
+    
+    // Scroll down
+    chatLog.scrollTop = chatLog.scrollHeight;
 });
 
 // Resources
