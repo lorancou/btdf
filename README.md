@@ -18,6 +18,8 @@ Yabble is Copyright (c) 2010 James Brantly: https://github.com/jbrantly/yabble
 
 GameJs is licensed under the MIT license: http://gamejs.org/
 
+socket.io is licensed under the MIT license: http://socket.io/
+
 License
 --------------------------------------------------------------------------------
 
