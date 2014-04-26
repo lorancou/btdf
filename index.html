@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="res/style.css" media="screen" />
     <script src="./lib/yabble.js"></script>
     <script src="./lib/gamejs.min.js"></script>
+    <script src="./lib/socket.io.min.js"></script>
     <script>
       require.setModuleRoot('./client/');
       require.run('client')
@@ -18,7 +19,13 @@
       <div id="gjs-loader-sounds"></div>
       <div id="gjs-loader-images-text"></div>
       <div id="gjs-loader-images"></div>
-      <canvas id="gjs-canvas"></canvas>
+      <div><canvas id="gjs-canvas"></canvas></div>
+      <div>
+        <input type="text" id="chat-username"/>
+        <input type="text" id="chat-msg"/>
+        <button id="chat-send">send</button>
+      </div>
+      <div id="chat-log"></div>      
     </div>
   </body>
 </html>
