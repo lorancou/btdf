@@ -20,6 +20,8 @@ GameJs is licensed under the MIT license: http://gamejs.org/
 
 socket.io is licensed under the MIT license: http://socket.io/
 
+validator.js is licensed under the MIT license: https://github.com/chriso/validator.js
+
 License
 --------------------------------------------------------------------------------
 
