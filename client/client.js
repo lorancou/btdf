@@ -27,6 +27,12 @@ document.getElementById("chat-message").onkeypress = function (event) {
     return true;
 };
 
+// Init the chat log when the connection is established
+socket.on("e", function(data) {
+    var chatLog = document.getElementById("chat-log");
+    chatLog.innerHTML = "";
+});
+
 // Appends chat messages received from the server in the log
 socket.on("s", function(data) {
     var chatLog = document.getElementById("chat-log");

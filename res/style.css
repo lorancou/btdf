@@ -23,16 +23,15 @@ body{
     height: 512px;
     background:#ff00ff;
     margin:0;
-    padding:0;
-}
-
-#chat-input {
-    height: 80px;
 }
 
 #chat-log {
     overflow: auto;
-    height: 432px;
+    height: 440px;
+}
+
+#chat-input {
+    padding:12px;
 }
 
 #gjs-loader-images {
