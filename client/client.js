@@ -1,14 +1,17 @@
-console.log("I'm the client, hi! {:V");
-
 // Open a socket to the server
 var socket = io.connect("http://btdf.roustach.fr:8080/");
 
 // Callback to send a chat message to a server
-function sendChatMsg() {
+function sendChatMessage() {
     var user = document.getElementById("chat-user").value;
     var message = document.getElementById("chat-message").value;
     socket.emit("c", { u : user, m : message });
     document.getElementById("chat-message").value = "";
+}
+
+// Format a chat message for display in the log
+function formatChatMessage(user, message) {
+    return "<b>" + user + ":</b> " + message + "<br/>"
 }
 
 // Generate a random user name
@@ -16,12 +19,12 @@ function sendChatMsg() {
 document.getElementById("chat-user").value = "user_" + Math.random().toString(36).substr(2, 5);
 
 // Send a chat message when the "send" button is pressed
-document.getElementById("chat-send").onclick = sendChatMsg;
+document.getElementById("chat-send").onclick = sendChatMessage;
 
 // Send a chat message when return is pressed in the message box
 document.getElementById("chat-message").onkeypress = function (event) {
     if (event.which == 13 || event.keyCode == 13) {
-        sendChatMsg();
+        sendChatMessage();
         return false;
     }
     return true;
@@ -30,15 +33,23 @@ document.getElementById("chat-message").onkeypress = function (event) {
 // Init the chat log when the connection is established
 socket.on("e", function(data) {
     var chatLog = document.getElementById("chat-log");
+
+    // Display all previous messages
     chatLog.innerHTML = "";
+    for (var i=0; i<data.length; ++i) {
+        chatLog.innerHTML += formatChatMessage(data[i]["u"], data[i]["m"]);
+    }
+
+    // Scroll down
+    chatLog.scrollTop = chatLog.scrollHeight;
 });
 
-// Appends chat messages received from the server in the log
+// Appends new chat messages received from the server in the log
 socket.on("s", function(data) {
     var chatLog = document.getElementById("chat-log");
     
     // Actually appends
-    chatLog.innerHTML += "<b>" + data["u"] + ":</b> " + data["m"] + "<br/>";
+    chatLog.innerHTML += formatChatMessage(data["u"], data["m"]);
     
     // Scroll down
     chatLog.scrollTop = chatLog.scrollHeight;
