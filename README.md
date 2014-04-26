@@ -9,6 +9,8 @@ Contact: <lorancou@free.fr>
 
 I should write a description here.
 
+In the meantime the game is being developed there: http://btdf.roustach.fr.
+
 License
 --------------------------------------------------------------------------------
 
