@@ -14,6 +14,8 @@ function sendChatMsg() {
 document.getElementById("chat-send").onclick = sendChatMsg;
 
 // Send a chat message when return is pressed in the message box
+// + auto-focus to it
+document.getElementById("chat-msg").focus();
 document.getElementById("chat-msg").onkeypress = function (event) {
     if (event.which == 13 || event.keyCode == 13) {
         sendChatMsg();
