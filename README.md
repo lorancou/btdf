@@ -14,6 +14,8 @@ In the meantime the game is being developed there: http://btdf.roustach.fr.
 Libraries
 --------------------------------------------------------------------------------
 
+Yabble is Copyright (c) 2010 James Brantly: https://github.com/jbrantly/yabble
+
 GameJs is licensed under the MIT license: http://gamejs.org/
 
 License

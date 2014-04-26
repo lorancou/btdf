@@ -1,1 +1,24 @@
-Beneath the Duck Face
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Beneath the Duck Face</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <link rel="stylesheet" type="text/css" href="res/style.css" media="screen" />
+    <script src="./lib/yabble.js"></script>
+    <script src="./lib/gamejs.min.js"></script>
+    <script>
+      require.setModuleRoot('./client/');
+      require.run('client')
+    </script>
+  </head>
+  <body>
+    <h1>Beneath the Duck Face</h1>
+    <div>
+      <div id="gjs-loader-sounds-text">Loading... Please be patient.</div>
+      <div id="gjs-loader-sounds"></div>
+      <div id="gjs-loader-images-text"></div>
+      <div id="gjs-loader-images"></div>
+      <canvas id="gjs-canvas"></canvas>
+    </div>
+  </body>
+</html>
