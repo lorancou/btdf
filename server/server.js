@@ -15,6 +15,14 @@ var serverInfo = {
     duckSpeed : 0.0
 };
 
+// Server constants
+var constants = {
+    SERVER_DT : 100,
+    DUCK_SPEED_DELTA : 0.01,
+    DUCK_SPEED_MIN : -0.05,
+    DUCK_SPEED_MAX : 0.10
+};
+
 // Server started!
 allMessages.push({u: "server", m: "Quack! {:V", i: serverInfo});
 allMessages.push({u: "server", m: "Say \"forward\"?", i : serverInfo});
@@ -33,9 +41,15 @@ io.sockets.on("connection", function(socket) {
             } else if (sanitizedMessage == "surface" || sanitizedMessage == "sf") {
                 serverInfo.isBeneath = false;
             } else if (sanitizedMessage == "forward" || sanitizedMessage == "fw") {
-                serverInfo.duckSpeed += 0.05;
+                serverInfo.duckSpeed += constants.DUCK_SPEED_DELTA;
+                if ( serverInfo.duckSpeed > constants.DUCK_SPEED_MAX ) {
+                    serverInfo.duckSpeed = constants.DUCK_SPEED_MAX;
+                }
             } else if (sanitizedMessage == "backward" || sanitizedMessage == "bw") {
-                serverInfo.duckSpeed -= 0.05;
+                serverInfo.duckSpeed -= constants.DUCK_SPEED_DELTA;
+                if ( serverInfo.duckSpeed < constants.DUCK_SPEED_MIN ) {
+                    serverInfo.duckSpeed = constants.DUCK_SPEED_MIN;
+                }
             }
 
             var fullMessage = { u: sanitizedUser, m: sanitizedMessage, i: serverInfo };
@@ -46,9 +60,8 @@ io.sockets.on("connection", function(socket) {
 });
 
 // Move the duck once in a while
-var SERVER_DT = 100;
 function update() {
-    serverInfo.duckPos += serverInfo.duckSpeed * SERVER_DT / 1000.0;
+    serverInfo.duckPos += serverInfo.duckSpeed * constants.SERVER_DT / 1000.0;
     
     if (serverInfo.duckPos < 0.0) {
         reset();
@@ -64,7 +77,7 @@ function update() {
         allMessages.push(winMessage);
     }    
 }
-setInterval(update, SERVER_DT);
+setInterval(update, constants.SERVER_DT);
 
 // Reset
 function reset() {
