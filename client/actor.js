@@ -46,9 +46,8 @@ exports.duck.prototype.getRect = function(serverInfo) {
 exports.duck.prototype.update = function(dt, serverInfo) {
 
     // 7 frames anim
-    this.animTime += dt;
-    if (this.animTime > this.ANIM_DELTA)
-    {
+    this.animTime += dt * Math.abs(serverInfo.duckSpeed * 50);
+    while (this.animTime > this.ANIM_DELTA) {
         this.animTime -= this.ANIM_DELTA;
         this.animFrame = (this.animFrame + 1) % 7;
     }
