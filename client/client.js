@@ -72,9 +72,13 @@ socket.on("s", function(data) {
     // Apply duck position, etc.
     serverInfo = data["i"];
 
-    // Quack!
-    if ((data["u"] == "server") && (data["m"].indexOf("quack") > -1)) {
-        playSound("./res/quack" + Math.floor(Math.random() * 8) + ".mp3");
+    // Quack! Win!
+    if (data["u"] == "server") {
+        if (data["m"].indexOf("quack") > -1) {
+            playSound("./res/quack" + Math.floor(Math.random() * 8) + ".mp3");
+        } else if (data["m"] == "great success!") {
+            playSound("./res/win_tune.mp3");
+        }
     }
 });
 
@@ -111,6 +115,7 @@ var resources = [
     "./res/quack5.mp3",
     "./res/quack6.mp3",
     "./res/quack7.mp3",
+    "./res/win_tune.mp3",
 ];
 
 // Client objects

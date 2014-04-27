@@ -36,7 +36,7 @@ io.sockets.on("connection", function(socket) {
             var sanitizedUser = sanitize(data["u"]).escape();
             var sanitizedMessage = sanitize(data["m"]).escape();
             
-            if (sanitizedMessage != "") {
+            if (sanitizedMessage != "" && sanitizedUser != "" && sanitizedUser !="server") {
                 var sayQuack = false;
             
                 if (sanitizedMessage == "beneath" || sanitizedMessage == "bn") {
