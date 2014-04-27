@@ -6,7 +6,8 @@ var socket = io.connect("http://btdf.roustach.fr:8080/");
 // Server info
 var serverInfo = {
     isBeneath: false,
-    duckPos : 0.0
+    duckPos : 0.0,
+    duckSpeed : 0.0
 };
 
 // Callback to send a chat message to a server
@@ -69,15 +70,11 @@ socket.on("s", function(data) {
     
     // Apply duck position, etc.
     serverInfo = data["i"];
-    
-    console.log(serverInfo.duckPos);
 });
 
 // Duck position update
 socket.on("d", function(data) {
     serverInfo.duckPos = data;
-    
-    console.log(serverInfo.duckPos);
 });
 
 // GameJs stuff starts here
@@ -147,6 +144,9 @@ function init() {
 
 // Update scene
 function update(dt) {
+    // Dead reckoning on the duck position
+    serverInfo.duckPos += serverInfo.duckSpeed * dt / 1000.0;
+
     scene.beneath.update(dt);
     scene.foregroundFilled.update(dt);
     scene.foregroundBeneath.update(dt);

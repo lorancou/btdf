@@ -11,14 +11,10 @@ var io = require("socket.io").listen(8080),
 // Server info sent to clients
 var serverInfo = {
     isBeneath: false,
-    duckPos : 0.0
+    duckPos : 0.0,
+    duckSpeed : 0.0
 };
 
-// Private info
-var privateInfo = {
-    duckSpeed : 0.00
-}
- 
 // Server started!
 allMessages.push({u: "server", m: "Quack! {:V", i: serverInfo});
 allMessages.push({u: "server", m: "Say \"forward\"?", i : serverInfo});
@@ -37,9 +33,9 @@ io.sockets.on("connection", function(socket) {
             } else if (sanitizedMessage == "surface" || sanitizedMessage == "sf") {
                 serverInfo.isBeneath = false;
             } else if (sanitizedMessage == "forward" || sanitizedMessage == "fw") {
-                privateInfo.duckSpeed += 0.05;
+                serverInfo.duckSpeed += 0.05;
             } else if (sanitizedMessage == "backward" || sanitizedMessage == "bw") {
-                privateInfo.duckSpeed -= 0.05;
+                serverInfo.duckSpeed -= 0.05;
             }
 
             var fullMessage = { u: sanitizedUser, m: sanitizedMessage, i: serverInfo };
@@ -50,23 +46,23 @@ io.sockets.on("connection", function(socket) {
 });
 
 // Move the duck once in a while
-var SERVER_DT = 500;
+var SERVER_DT = 100;
 function update() {
-    serverInfo.duckPos += privateInfo.duckSpeed * SERVER_DT / 1000.0;
+    serverInfo.duckPos += serverInfo.duckSpeed * SERVER_DT / 1000.0;
     
     if (serverInfo.duckPos < 0.0) {
+        reset();
+
         var loseMessage = {u: "server", m: "Not this way", i: serverInfo};
         io.sockets.emit("s",loseMessage);
         allMessages.push(loseMessage);
-        reset();
     } else if (serverInfo.duckPos >= 1.0) {
+        reset();
+
         var winMessage = {u: "server", m: "Great success! {:V", i: serverInfo};
         io.sockets.emit("s",winMessage);
         allMessages.push(winMessage);
-        reset();
     }    
-
-    io.sockets.emit("d",serverInfo.duckPos);
 }
 setInterval(update, SERVER_DT);
 
@@ -74,5 +70,5 @@ setInterval(update, SERVER_DT);
 function reset() {
     serverInfo.isBeneath = false;
     serverInfo.duckPos = 0.0;
-    privateInfo.duckSpeed = 0.0;
+    serverInfo.duckSpeed = 0.0;
 }
