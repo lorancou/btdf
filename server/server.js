@@ -6,9 +6,12 @@
 var io = require("socket.io").listen(8080),
     sanitize = require('validator').sanitize,
     allMessages = new Array();
-    
+
+var duckPos = 100;   
+ 
 // Server started!
-allMessages.push({u: "server", m: "Quack! {:V"});
+allMessages.push({u: "server", m: "Quack! {:V", d: duckPos});
+allMessages.push({u: "server", m: "Say \"forward\"?", d: duckPos});
 
 // Broadcast received chat messages
 io.sockets.on("connection", function(socket) {
@@ -17,8 +20,18 @@ io.sockets.on("connection", function(socket) {
     socket.on("c", function(data) {
         var sanitizedUser = sanitize(data["u"]).escape();
         var sanitizedMessage = sanitize(data["m"]).escape();
-        var fullMessage = { u: sanitizedUser, m: sanitizedMessage };
-        io.sockets.emit("s",fullMessage);
-        allMessages.push(fullMessage);
+        
+        if (sanitizedMessage != "") {
+            if (sanitizedMessage == "forward") {
+                duckPos += 10;
+            } else if (sanitizedMessage == "backward") {
+                duckPos -= 10;
+            }
+            
+            var fullMessage = { u: sanitizedUser, m: sanitizedMessage, d: duckPos };
+        
+            io.sockets.emit("s",fullMessage);
+            allMessages.push(fullMessage);
+        }
     });
 });

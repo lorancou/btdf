@@ -1,6 +1,8 @@
 // Open a socket to the server
 var socket = io.connect("http://btdf.roustach.fr:8080/");
 
+var duckPos = 100;
+
 // Callback to send a chat message to a server
 function sendChatMessage() {
     var user = document.getElementById("chat-user").value;
@@ -42,6 +44,10 @@ socket.on("e", function(data) {
 
     // Scroll down
     chatLog.scrollTop = chatLog.scrollHeight;
+
+    if ( data.length > 0 ) {
+        duckPos = data[data.length-1]["d"];
+    }
 });
 
 // Appends new chat messages received from the server in the log
@@ -53,11 +59,15 @@ socket.on("s", function(data) {
     
     // Scroll down
     chatLog.scrollTop = chatLog.scrollHeight;
+    
+    // Apply duck position
+    duckPos = data["d"];
 });
 
 // GameJs stuff starts here
 var gamejs = require('gamejs'),
-    scenery = require('scenery');
+    scenery = require('scenery'),
+    actor = require('actor');
 
 // Resources
 var resources = [
@@ -71,7 +81,8 @@ var gClient = {
     width : 512,
     height : 512,
     background : null,
-    foreground : null
+    foreground : null,
+    duck : null
 };
 
 // Main
@@ -95,8 +106,10 @@ function init() {
     gamejs.display.setMode([gClient.width, gClient.height]);
     
     // Init game objects
-    gClient.background = new scenery.background(0,0,gClient.width,gClient.height);
-    gClient.foreground = new scenery.foreground(0,0,gClient.width,gClient.height);
+    gClient.background = new scenery.background();
+    gClient.foreground = new scenery.foreground();
+    gClient.duck = new actor.duck([duckPos,180]);
+    gClient.duck.rect.x = duckPos; // ?
     
     // Focus the chat message box (GameJs kind of takes the focus)
     document.getElementById("chat-message").focus();
@@ -104,11 +117,13 @@ function init() {
 
 // Update
 function update(dt) {
+    gClient.duck.rect.x = duckPos;
 }
 
 // Draw
 function draw() {
     var mainSurface = gamejs.display.getSurface();
     gClient.background.draw(mainSurface);
+    gClient.duck.draw(mainSurface);
     gClient.foreground.draw(mainSurface);
 }
