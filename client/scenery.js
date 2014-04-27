@@ -16,8 +16,16 @@ gamejs.utils.objects.extend(exports.fullScreenSprite, gamejs.sprite.Sprite);
 exports.buoy = function(scene, xPosition, imageFile) {    
     exports.buoy.superConstructor.apply(this, arguments);
     this.scene = scene;
-    this.image = gamejs.image.load(imageFile);
-    this.rect = utils.centerToTopLeft(new gamejs.Rect([xPosition, 200]), this.image);
+    this.originalImage = gamejs.image.load(imageFile);
+    this.image = this.originalImage;
+    this.rect = utils.centerToTopLeft(new gamejs.Rect([xPosition, 230]), this.image);
+    this.floatBob = new utils.floatBob(0.0015, 6);
     return this;
 };
 gamejs.utils.objects.extend(exports.buoy, gamejs.sprite.Sprite);
+
+// Buoys update
+exports.buoy.prototype.update = function(dt) {
+    this.floatBob.update(dt);
+    this.image = gamejs.transform.rotate(this.originalImage, this.floatBob.rotation);
+}

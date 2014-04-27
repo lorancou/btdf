@@ -131,6 +131,8 @@ function init() {
 // Update
 function update(dt) {
     // Update scene
+    scene.startBuoy.update(dt);
+    scene.finishBuoy.update(dt);
     scene.duck.update(dt);
 }
 

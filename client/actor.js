@@ -8,8 +8,10 @@ exports.duck = function(scene, serverInfo) {
     exports.duck.superConstructor.apply(this, arguments);
     this.scene = scene;
     this.serverInfo = serverInfo;
-    this.image = gamejs.image.load("./res/duck.png");
+    this.originalImage = gamejs.image.load("./res/duck.png");
+    this.image = this.originalImage;
     this.rect = this.getRect();
+    this.floatBob = new utils.floatBob(0.003, 12);
     return this;
 };
 gamejs.utils.objects.extend(exports.duck, gamejs.sprite.Sprite);
@@ -18,7 +20,7 @@ gamejs.utils.objects.extend(exports.duck, gamejs.sprite.Sprite);
 exports.duck.prototype.getRect = function() {
     var centerPos = new gamejs.Rect(
         this.scene.START + this.serverInfo.duckPos * (this.scene.FINISH - this.scene.START),
-        240
+        245
         );
     return utils.centerToTopLeft(centerPos, this.image);
 }
@@ -26,4 +28,6 @@ exports.duck.prototype.getRect = function() {
 // Duck update
 exports.duck.prototype.update = function(dt) {
     this.rect = this.getRect();
+    this.floatBob.update(dt);
+    this.image = gamejs.transform.rotate(this.originalImage, this.floatBob.rotation);
 }
