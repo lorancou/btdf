@@ -5,9 +5,10 @@ var socket = io.connect("http://btdf.roustach.fr:8080/");
 
 // Server info
 var serverInfo = {
+    state : "intro",
     isBeneath: false,
-    duckPos : 0.0,
-    duckSpeed : 0.0
+    duckPos : -0.5,
+    duckSpeed : 0.1
 };
 
 // Callback to send a chat message to a server
@@ -67,9 +68,14 @@ socket.on("s", function(data) {
     
     // Scroll down
     chatLog.scrollTop = chatLog.scrollHeight;
-    
+        
     // Apply duck position, etc.
     serverInfo = data["i"];
+
+    // Quack!
+    if ((data["u"] == "server") && (data["m"].indexOf("quack") > -1)) {
+        playSound("./res/quack" + Math.floor(Math.random() * 8) + ".mp3");
+    }
 });
 
 // Duck position update
@@ -97,6 +103,14 @@ var resources = [
     "./res/foreground_filled.png",
     "./res/finish.png",
     "./res/start.png",
+    "./res/quack0.mp3",
+    "./res/quack1.mp3",
+    "./res/quack2.mp3",
+    "./res/quack3.mp3",
+    "./res/quack4.mp3",
+    "./res/quack5.mp3",
+    "./res/quack6.mp3",
+    "./res/quack7.mp3",
 ];
 
 // Client objects
@@ -180,4 +194,20 @@ function draw() {
     } else {
         scene.foregroundFilled.draw(mainSurface);
     }
+}
+
+// Sounds
+var playingSound = null;
+function playSound(fileName) {
+    // no sound support for IE, last time I checked .ogg wasn't supported
+    if (window.navigator.appName == "Microsoft Internet Explorer") {
+        return;
+    }
+
+    if (playingSound) {
+        //playingSound.stop(); nope?
+    }
+    
+    playingSound = new gamejs.mixer.Sound(fileName);
+    playingSound.play(false);
 }
