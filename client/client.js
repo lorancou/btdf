@@ -13,7 +13,8 @@ function sendChatMessage() {
     var user = document.getElementById("chat-user").value;
     var message = document.getElementById("chat-message").value;
     socket.emit("c", { u : user, m : message });
-    document.getElementById("chat-message").value = "";
+    document.getElementById("chat-message").value = "";    
+    scene.isBeneath  = true;
 }
 
 // Format a chat message for display in the log
@@ -78,8 +79,10 @@ var gamejs = require('gamejs'),
 // Resources
 var resources = [
     "./res/background.png",
+    "./res/beneath.png",
     "./res/duck.png",
-    "./res/foreground.png",
+    "./res/foreground_beneath.png",
+    "./res/foreground_filled.png",
     "./res/finish.png",
     "./res/start.png",
 ];
@@ -90,8 +93,11 @@ var scene = {
     HEIGHT : 512,
     START : 100,
     FINISH : 412,
+    isBeneath : false,
     background : null,
-    foreground : null,
+    beneath : null,
+    foregroundFilled : null,
+    foregroundBeneath : null,
     startBuoy : null,
     finishBuoy : null,
     duck : null
@@ -121,29 +127,42 @@ function init() {
     document.getElementById("chat-message").focus();
 
     // Init scene
-    scene.background = new scenery.fullScreenSprite("./res/background.png");
-    scene.foreground = new scenery.fullScreenSprite("./res/foreground.png");
+    scene.background = new scenery.fullScreenSprite(scene, 0, "./res/background.png");
+    scene.beneath = new scenery.fullScreenSprite(scene, 0.01, "./res/beneath.png");
+    scene.foregroundFilled = new scenery.fullScreenSprite(scene, 0.01, "./res/foreground_filled.png");
+    scene.foregroundBeneath = new scenery.fullScreenSprite(scene, 0.01, "./res/foreground_beneath.png");
     scene.startBuoy = new scenery.buoy(scene, scene.START, "./res/start.png");
     scene.finishBuoy = new scenery.buoy(scene, scene.FINISH, "./res/finish.png");
     scene.duck = new actor.duck(scene, serverInfo);
 }
 
-// Update
+// Update scene
 function update(dt) {
-    // Update scene
+    scene.beneath.update(dt);
+    scene.foregroundFilled.update(dt);
+    scene.foregroundBeneath.update(dt);
     scene.startBuoy.update(dt);
     scene.finishBuoy.update(dt);
     scene.duck.update(dt);
 }
 
-// Draw
+// Draw scene
 function draw() {
     var mainSurface = gamejs.display.getSurface();
     
-    // Draw scene
     scene.background.draw(mainSurface);
+
+    if (scene.isBeneath) {
+        scene.beneath.draw(mainSurface);
+    }
+
     scene.startBuoy.draw(mainSurface);
     scene.finishBuoy.draw(mainSurface);
     scene.duck.draw(mainSurface);
-    scene.foreground.draw(mainSurface);
+    
+    if (scene.isBeneath) {
+        scene.foregroundBeneath.draw(mainSurface);
+    } else {
+        scene.foregroundFilled.draw(mainSurface);
+    }
 }

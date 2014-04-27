@@ -9,7 +9,7 @@ exports.centerToTopLeft = function(pos, image) {
 exports.floatBob = function(speed, angleMax) {
     this.SPEED = speed;
     this.ANGLE_MAX = angleMax;
-    this.rotationT = Math.random();
+    this.rotationT = Math.random();;
     this.rotation = 0;
     return this;
 }
