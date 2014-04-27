@@ -73,6 +73,13 @@ socket.on("s", function(data) {
     console.log(serverInfo.duckPos);
 });
 
+// Duck position update
+socket.on("d", function(data) {
+    serverInfo.duckPos = data;
+    
+    console.log(serverInfo.duckPos);
+});
+
 // GameJs stuff starts here
 var gamejs = require('gamejs'),
     scenery = require('scenery'),
