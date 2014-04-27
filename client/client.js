@@ -78,8 +78,10 @@ var gamejs = require('gamejs'),
 // Resources
 var resources = [
     "./res/background.png",
-    "./res/foreground.png",
     "./res/duck.png",
+    "./res/foreground.png",
+    "./res/finish.png",
+    "./res/start.png",
 ];
 
 // Client objects
@@ -90,6 +92,8 @@ var scene = {
     FINISH : 412,
     background : null,
     foreground : null,
+    startBuoy : null,
+    finishBuoy : null,
     duck : null
 };
 
@@ -117,8 +121,10 @@ function init() {
     document.getElementById("chat-message").focus();
 
     // Init scene
-    scene.background = new scenery.background();
-    scene.foreground = new scenery.foreground();
+    scene.background = new scenery.fullScreenSprite("./res/background.png");
+    scene.foreground = new scenery.fullScreenSprite("./res/foreground.png");
+    scene.startBuoy = new scenery.buoy(scene, scene.START, "./res/start.png");
+    scene.finishBuoy = new scenery.buoy(scene, scene.FINISH, "./res/finish.png");
     scene.duck = new actor.duck(scene, serverInfo);
 }
 
@@ -134,6 +140,8 @@ function draw() {
     
     // Draw scene
     scene.background.draw(mainSurface);
+    scene.startBuoy.draw(mainSurface);
+    scene.finishBuoy.draw(mainSurface);
     scene.duck.draw(mainSurface);
     scene.foreground.draw(mainSurface);
 }

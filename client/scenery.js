@@ -1,21 +1,23 @@
 "use strict";
 
-var gamejs = require('gamejs');
+var gamejs = require('gamejs'),
+    utils = require('utils');
 
-// The background
-exports.background = function() {    
-    exports.background.superConstructor.apply(this, arguments);
-    this.image = gamejs.image.load("./res/background.png");
-    this.rect = new gamejs.Rect([0,0]);
+// The background & foreground
+exports.fullScreenSprite = function(imageFile) {    
+    exports.fullScreenSprite.superConstructor.apply(this, arguments);
+    this.image = gamejs.image.load(imageFile);
+    this.rect = new gamejs.Rect([0, 0]);
     return this;
 };
-gamejs.utils.objects.extend(exports.background, gamejs.sprite.Sprite);
+gamejs.utils.objects.extend(exports.fullScreenSprite, gamejs.sprite.Sprite);
 
-// The foreground
-exports.foreground = function() {    
-    exports.foreground.superConstructor.apply(this, arguments);
-    this.image = gamejs.image.load("./res/foreground.png");
-    this.rect = new gamejs.Rect([0,0]);
+// The buoys
+exports.buoy = function(scene, xPosition, imageFile) {    
+    exports.buoy.superConstructor.apply(this, arguments);
+    this.scene = scene;
+    this.image = gamejs.image.load(imageFile);
+    this.rect = utils.centerToTopLeft(new gamejs.Rect([xPosition, 200]), this.image);
     return this;
 };
-gamejs.utils.objects.extend(exports.foreground, gamejs.sprite.Sprite);
+gamejs.utils.objects.extend(exports.buoy, gamejs.sprite.Sprite);

@@ -1,6 +1,7 @@
 "use strict";
 
-var gamejs = require('gamejs');
+var gamejs = require('gamejs'),
+    utils = require('utils');
 
 // Duck ctor
 exports.duck = function(scene, serverInfo) {    
@@ -15,10 +16,11 @@ gamejs.utils.objects.extend(exports.duck, gamejs.sprite.Sprite);
 
 // Duck position
 exports.duck.prototype.getRect = function() {
-    return new gamejs.Rect(
-        this.scene.START + this.serverInfo.duckPos * (this.scene.FINISH - this.scene.START) - this.image.getSize()[0] * 0.5,
-        this.scene.HEIGHT * 0.5 - this.image.getSize()[1] * 0.5
+    var centerPos = new gamejs.Rect(
+        this.scene.START + this.serverInfo.duckPos * (this.scene.FINISH - this.scene.START),
+        240
         );
+    return utils.centerToTopLeft(centerPos, this.image);
 }
 
 // Duck update
