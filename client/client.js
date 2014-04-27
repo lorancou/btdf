@@ -5,9 +5,10 @@ var socket = io.connect("http://btdf.roustach.fr:8080/");
 
 // Server info
 var serverInfo = {
+    state : "intro",
     isBeneath: false,
-    duckPos : 0.0,
-    duckSpeed : 0.0
+    duckPos : -0.5,
+    duckSpeed : 0.1
 };
 
 // Callback to send a chat message to a server
