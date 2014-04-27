@@ -5,29 +5,29 @@ body{
 #wrap {
     width:768px;
     margin:0 auto;
-    background:#ffff00;
 }
 
 #left {
     float:left;
     width:512px;
     height: 512px;
-    background:#ff0000;
     margin:0;
     padding:0;
 }
 
 #right {
     float:right;
-    width:256px;
+    width:216px;
     height: 512px;
-    background:#ff00ff;
     margin:0;
+    padding:0;
+    border: 1px solid;
 }
 
 #chat-log {
+    padding:5px;
     overflow: auto;
-    height: 440px;
+    height: 400px;
 }
 
 #chat-input {

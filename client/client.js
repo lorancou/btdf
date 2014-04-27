@@ -55,9 +55,24 @@ socket.on("s", function(data) {
     chatLog.scrollTop = chatLog.scrollHeight;
 });
 
+// GameJs stuff starts here
+var gamejs = require('gamejs'),
+    scenery = require('scenery');
+
 // Resources
-var data = [
+var resources = [
+    "./res/background.png",
+    "./res/foreground.png",
+    "./res/duck.png",
 ];
+
+// Client objects
+var gClient = {
+    width : 512,
+    height : 512,
+    background : null,
+    foreground : null
+};
 
 // Main
 function main() {
@@ -65,14 +80,23 @@ function main() {
     
     gamejs.onTick(function(dt) {
         update(dt);
+        draw();
     });
 }
+
+// Run GameJs
+gamejs.preload(resources);
+gamejs.ready(main);
 
 // Init
 function init() {
     // Init GameJs
     var canvas = document.getElementById("gjs-canvas");
-    var display = gamejs.display.setMode([canvas.width, canvas.height]);
+    gamejs.display.setMode([gClient.width, gClient.height]);
+    
+    // Init game objects
+    gClient.background = new scenery.background(0,0,gClient.width,gClient.height);
+    gClient.foreground = new scenery.foreground(0,0,gClient.width,gClient.height);
     
     // Focus the chat message box (GameJs kind of takes the focus)
     document.getElementById("chat-message").focus();
@@ -80,10 +104,11 @@ function init() {
 
 // Update
 function update(dt) {
-    gamejs.display.getSurface().fill('magenta');
 }
 
-// Run GameJs
-var gamejs = require('gamejs');
-gamejs.preload(data);
-gamejs.ready(main);
+// Draw
+function draw() {
+    var mainSurface = gamejs.display.getSurface();
+    gClient.background.draw(mainSurface);
+    gClient.foreground.draw(mainSurface);
+}
