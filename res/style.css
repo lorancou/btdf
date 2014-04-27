@@ -3,35 +3,28 @@ body{
 }
 
 #wrap {
-    width:768px;
+    width:850px;
+    height:812px;
     margin:0 auto;
 }
 
 #left {
     float:left;
     width:512px;
-    height: 512px;
     margin:0;
     padding:0;
 }
 
 #right {
     float:right;
-    width:216px;
-    height: 512px;
+    width:292px;
     margin:0;
     padding:0;
     border: 1px solid;
 }
 
-#chat-log {
-    padding:5px;
-    overflow: auto;
-    height: 400px;
-}
-
-#chat-input {
-    padding:12px;
+#header {
+    height: 300px;
 }
 
 #gjs-loader-images {
@@ -49,4 +42,14 @@ body{
 #gjs-canvas {
     width: 512px;
     height: 512px;
+}
+
+#chat-log {
+    padding:5px;
+    overflow: auto;
+    height:752px;
+}
+
+#chat-input {
+    padding:12px;
 }
