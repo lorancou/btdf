@@ -25,7 +25,7 @@ var constants = {
 
 // Server started!
 allMessages.push({u: "server", m: "Quack! {:V", i: serverInfo});
-allMessages.push({u: "server", m: "Say \"forward\"?", i : serverInfo});
+allMessages.push({u: "server", m: "Say something?", i : serverInfo});
 
 // Broadcast received chat messages
 io.sockets.on("connection", function(socket) {
@@ -36,6 +36,8 @@ io.sockets.on("connection", function(socket) {
         var sanitizedMessage = sanitize(data["m"]).escape();
         
         if (sanitizedMessage != "") {
+            var sayQuack = false;
+        
             if (sanitizedMessage == "beneath" || sanitizedMessage == "bn") {
                 serverInfo.isBeneath = true;
             } else if (sanitizedMessage == "surface" || sanitizedMessage == "sf") {
@@ -50,11 +52,19 @@ io.sockets.on("connection", function(socket) {
                 if ( serverInfo.duckSpeed < constants.DUCK_SPEED_MIN ) {
                     serverInfo.duckSpeed = constants.DUCK_SPEED_MIN;
                 }
+            } else if (sanitizedMessage == "quack" || sanitizedMessage == "qk") {
+                sayQuack = true;
             }
 
             var fullMessage = { u: sanitizedUser, m: sanitizedMessage, i: serverInfo };
             io.sockets.emit("s",fullMessage);
             allMessages.push(fullMessage);
+            
+            if (sayQuack) {
+                var quackMessage = {u: "server", m: "Quack! {:V", i: serverInfo};
+                io.sockets.emit("s",quackMessage);
+                allMessages.push(quackMessage);
+            }
         }
     });
 });
