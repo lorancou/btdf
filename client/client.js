@@ -1,7 +1,12 @@
+"use strict";
+
 // Open a socket to the server
 var socket = io.connect("http://btdf.roustach.fr:8080/");
 
-var duckPos = 100;
+// Server info
+var serverInfo = {
+    duckPos : 0.0
+};
 
 // Callback to send a chat message to a server
 function sendChatMessage() {
@@ -45,8 +50,9 @@ socket.on("e", function(data) {
     // Scroll down
     chatLog.scrollTop = chatLog.scrollHeight;
 
+    // Apply duck position
     if ( data.length > 0 ) {
-        duckPos = data[data.length-1]["d"];
+        serverInfo.duckPos = data[data.length-1]["d"];
     }
 });
 
@@ -61,7 +67,7 @@ socket.on("s", function(data) {
     chatLog.scrollTop = chatLog.scrollHeight;
     
     // Apply duck position
-    duckPos = data["d"];
+    serverInfo.duckPos = data["d"];
 });
 
 // GameJs stuff starts here
@@ -77,9 +83,11 @@ var resources = [
 ];
 
 // Client objects
-var gClient = {
-    width : 512,
-    height : 512,
+var scene = {
+    WIDTH : 512,
+    HEIGHT : 512,
+    START : 100,
+    FINISH : 412,
     background : null,
     foreground : null,
     duck : null
@@ -103,27 +111,29 @@ gamejs.ready(main);
 function init() {
     // Init GameJs
     var canvas = document.getElementById("gjs-canvas");
-    gamejs.display.setMode([gClient.width, gClient.height]);
+    gamejs.display.setMode([scene.WIDTH, scene.HEIGHT]);
     
-    // Init game objects
-    gClient.background = new scenery.background();
-    gClient.foreground = new scenery.foreground();
-    gClient.duck = new actor.duck([duckPos,180]);
-    gClient.duck.rect.x = duckPos; // ?
-    
-    // Focus the chat message box (GameJs kind of takes the focus)
+    // Focus the chat message box (GameJs takes the focus in .ready())
     document.getElementById("chat-message").focus();
+
+    // Init scene
+    scene.background = new scenery.background();
+    scene.foreground = new scenery.foreground();
+    scene.duck = new actor.duck(scene, serverInfo);
 }
 
 // Update
 function update(dt) {
-    gClient.duck.rect.x = duckPos;
+    // Update scene
+    scene.duck.update(dt);
 }
 
 // Draw
 function draw() {
     var mainSurface = gamejs.display.getSurface();
-    gClient.background.draw(mainSurface);
-    gClient.duck.draw(mainSurface);
-    gClient.foreground.draw(mainSurface);
+    
+    // Draw scene
+    scene.background.draw(mainSurface);
+    scene.duck.draw(mainSurface);
+    scene.foreground.draw(mainSurface);
 }

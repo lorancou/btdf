@@ -1,3 +1,5 @@
+"use strict";
+
 var gamejs = require('gamejs');
 
 // The background

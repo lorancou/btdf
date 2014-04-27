@@ -7,7 +7,7 @@ var io = require("socket.io").listen(8080),
     sanitize = require('validator').sanitize,
     allMessages = new Array();
 
-var duckPos = 100;   
+var duckPos = 0.0;
  
 // Server started!
 allMessages.push({u: "server", m: "Quack! {:V", d: duckPos});
@@ -23,9 +23,9 @@ io.sockets.on("connection", function(socket) {
         
         if (sanitizedMessage != "") {
             if (sanitizedMessage == "forward") {
-                duckPos += 10;
+                duckPos += 0.1;
             } else if (sanitizedMessage == "backward") {
-                duckPos -= 10;
+                duckPos -= 0.1;
             }
             
             var fullMessage = { u: sanitizedUser, m: sanitizedMessage, d: duckPos };
