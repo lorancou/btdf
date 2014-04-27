@@ -5,6 +5,7 @@ var socket = io.connect("http://btdf.roustach.fr:8080/");
 
 // Server info
 var serverInfo = {
+    isBeneath: false,
     duckPos : 0.0
 };
 
@@ -13,8 +14,7 @@ function sendChatMessage() {
     var user = document.getElementById("chat-user").value;
     var message = document.getElementById("chat-message").value;
     socket.emit("c", { u : user, m : message });
-    document.getElementById("chat-message").value = "";    
-    scene.isBeneath  = true;
+    document.getElementById("chat-message").value = "";
 }
 
 // Format a chat message for display in the log
@@ -51,9 +51,9 @@ socket.on("e", function(data) {
     // Scroll down
     chatLog.scrollTop = chatLog.scrollHeight;
 
-    // Apply duck position
+    // Apply duck position, etc.
     if ( data.length > 0 ) {
-        serverInfo.duckPos = data[data.length-1]["d"];
+        serverInfo = data[data.length-1]["i"];
     }
 });
 
@@ -67,8 +67,10 @@ socket.on("s", function(data) {
     // Scroll down
     chatLog.scrollTop = chatLog.scrollHeight;
     
-    // Apply duck position
-    serverInfo.duckPos = data["d"];
+    // Apply duck position, etc.
+    serverInfo = data["i"];
+    
+    console.log(serverInfo.duckPos);
 });
 
 // GameJs stuff starts here
@@ -143,7 +145,7 @@ function update(dt) {
     scene.foregroundBeneath.update(dt);
     scene.startBuoy.update(dt);
     scene.finishBuoy.update(dt);
-    scene.duck.update(dt);
+    scene.duck.update(dt, serverInfo);
 }
 
 // Draw scene
@@ -152,7 +154,7 @@ function draw() {
     
     scene.background.draw(mainSurface);
 
-    if (scene.isBeneath) {
+    if (serverInfo.isBeneath) {
         scene.beneath.draw(mainSurface);
     }
 
@@ -160,7 +162,7 @@ function draw() {
     scene.finishBuoy.draw(mainSurface);
     scene.duck.draw(mainSurface);
     
-    if (scene.isBeneath) {
+    if (serverInfo.isBeneath) {
         scene.foregroundBeneath.draw(mainSurface);
     } else {
         scene.foregroundFilled.draw(mainSurface);
