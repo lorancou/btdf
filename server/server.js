@@ -29,12 +29,17 @@ allMessages.push({u: "server", m: "here comes the duck {:V", i : serverInfo});
 
 // Broadcast received chat messages
 io.sockets.on("connection", function(socket) {
+    if (allMessages.length > 32) {
+        allMessages.splice(0, allMessages.length - 32);
+    }
     socket.emit("e",allMessages);
 
     socket.on("c", function(data) {
         if (serverInfo.state == "playing") {
             var sanitizedUser = sanitize(data["u"]).escape();
+            sanitizedUser = sanitizedUser.substring(0, 32);
             var sanitizedMessage = sanitize(data["m"]).escape();
+            sanitizedMessage = sanitizedMessage.substring(0, 240);
             
             if (sanitizedMessage != "" && sanitizedUser != "" && sanitizedUser !="server") {
                 var sayQuack = false;
