@@ -5,11 +5,11 @@ Game entry for Ludum Dare #29, theme: Beneath the Surface
 --------------------------------------------------------------------------------
 
 Copyright (c) 2014 Laurent Couvidou  
-Contact: <lorancou@free.fr>
+Contact: <hello@lorancou.net>
 
 Move the duck to the finish with the chat. All connected people play together!
 
-The game is playable here: http://btdf.roustach.fr.
+The game is playable here: http://lorancou.net/games/btdf.
 
 Libraries
 --------------------------------------------------------------------------------
