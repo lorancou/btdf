@@ -1,7 +1,7 @@
 "use strict";
 
 // Open a socket to the server
-var socket = io.connect("http://btdf.roustach.fr:8080/");
+var socket = io.connect("http://localhost:8080/");
 
 // Server info
 var serverInfo = {
