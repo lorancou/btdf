@@ -1,12 +1,24 @@
+"use strict";
+
 // Messages:
-// "e" -> connection Established
-// "c" -> chat message received from Client
-// "s" -> chat message broadcasted from Server
+// "e" -> Connection established
+// "c" -> Chat message received from client
+// "s" -> Chat message broadcasted from server
 // "d" -> Duck position update
 
-var io = require("socket.io").listen(8080),
-    sanitize = require('validator').sanitize,
-    allMessages = new Array();
+// Init socket.io
+var io = require("socket.io").listen(8080);
+if (typeof io !== "undefined") {
+    console.log("socket.io ready");
+}
+
+// Init validator
+var validator = require("validator");
+if (typeof validator !== "undefined") {
+    console.log("validator ready");
+}
+
+var allMessages = new Array();
 
 // Server info sent to clients
 var serverInfo = {
@@ -36,12 +48,10 @@ io.sockets.on("connection", function(socket) {
 
     socket.on("c", function(data) {
         if (serverInfo.state == "playing") {
-            var sanitizedUser = sanitize(data["u"]).escape();
-            sanitizedUser = sanitizedUser.substring(0, 32);
-            var sanitizedMessage = sanitize(data["m"]).escape();
-            sanitizedMessage = sanitizedMessage.substring(0, 240);
+            var sanitizedUser = validator.escape(data["u"]+"").substring(0, 32);
+            var sanitizedMessage = validator.escape(data["m"]+"").substring(0, 240);
             
-            if (sanitizedMessage != "" && sanitizedUser != "" && sanitizedUser !="server") {
+            if (sanitizedMessage != "" && sanitizedUser != "" && sanitizedUser != "server") {
                 var sayQuack = false;
             
                 if (sanitizedMessage == "beneath" || sanitizedMessage == "bn") {
