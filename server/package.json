@@ -1,0 +1,11 @@
+{
+  "name": "btdf_server",
+  "description": "Beneath the Duck Face server",
+  "repository": "github:lorancou/btdf",
+  "license": "GPL-3.0-or-later",
+  "version": "1.0.0",
+  "dependencies": {
+    "socket.io": "^2.2.0",
+    "validator": "^10.11.0"
+  }
+}
