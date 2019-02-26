@@ -3,10 +3,12 @@
   <head>
     <title>Beneath the Duck Face</title>
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
     <link rel="stylesheet" type="text/css" href="res/style.css" media="screen" />
     <script src="./lib/yabble.js"></script>
     <script src="./lib/gamejs.min.js"></script>
-    <script src="./lib/socket.io.min.js"></script>
+    <script src="http://localhost:8080/socket.io/socket.io.js"></script>
     <script>
       require.setModuleRoot('./client/');
       require.run('client')
