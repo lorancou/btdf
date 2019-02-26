@@ -1,3 +1,5 @@
 sync.sh
 synclight.sh
 .syncignore
+server/node_modules
+server/package-lock.json
